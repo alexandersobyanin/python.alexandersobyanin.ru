@@ -1,7 +1,9 @@
-# -*- coding: utf-8 -*-
+#!python3
+
 
 def main():
     print("RUNNING TASK")
+
 
 if __name__ == "__main__":
     print("START TASK")
