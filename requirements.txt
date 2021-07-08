@@ -2,3 +2,4 @@ gitpython
 flask
 flask-cors
 flask-sslify
+telepot
