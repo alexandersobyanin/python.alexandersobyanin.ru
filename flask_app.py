@@ -117,6 +117,8 @@ def update_server_webhook():
     if not x_hub_signature:
         return 'Wrong params', 402
     w_secret = os.getenv('UPDATE_SERVER_WEBHOOK_SECRET_KEY')
+    if not isinstance(w_secret, str):
+        return 'Wrong secret', 500
     if not github.is_valid_signature(x_hub_signature, request.data, w_secret):
         return 'Access denied', 403
     repo = git.Repo('~/mysite/')
