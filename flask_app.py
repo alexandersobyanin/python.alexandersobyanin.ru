@@ -15,8 +15,8 @@ telegram_secret = os.getenv('TELEGRAM_BOT_SECRET')
 
 telegram_euc_urals_radio_bot_token = os.getenv('TELEGRAM_BOT_EUC_URALS_RADIO_BOT')
 telegram_euc_urals_radio_bot_url = '/telegram/TELEGRAM_BOT_EUC_URALS_RADIO_BOT/{}/'.format(telegram_secret)
-# telegram_euc_urals_radio_bot = telepot.Bot(telegram_euc_urals_radio_bot_token)
-# telegram_euc_urals_radio_bot.setWebhook(telegram_euc_urals_radio_bot_url, max_connections=1)
+telegram_euc_urals_radio_bot = telepot.Bot(telegram_euc_urals_radio_bot_token)
+telegram_euc_urals_radio_bot.setWebhook(telegram_euc_urals_radio_bot_url, max_connections=1)
 
 telegram_euc_urals_pets_bot_token = os.getenv('TELEGRAM_BOT_EUC_URALS_PETS_BOT')
 telegram_euc_urals_pets_bot_url = '/telegram/TELEGRAM_BOT_EUC_URALS_PETS_BOT/{}/'.format(telegram_secret)
@@ -57,7 +57,7 @@ def telegram_euc_urals_radio_bot_webhook():
     update = request.get_json()
     if "message" in update:
         chat_id = update["message"]["chat"]["id"]
-        telegram_euc_urals_pets_bot.sendMessage(chat_id, "Как слышно, моноколёсник? Приём!")
+        telegram_euc_urals_radio_bot.sendMessage(chat_id, "Как слышно, моноколёсник? Приём!")
         if "text" in update["message"]:
             text = update["message"]["text"]
             telegram_euc_urals_radio_bot.sendMessage(chat_id, "From the web: you said '{}'".format(text))
