@@ -2,7 +2,6 @@
 import os
 import json
 import git
-import urllib3
 from flask import Flask
 from flask import request
 from flask import render_template
