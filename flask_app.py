@@ -22,6 +22,7 @@ telepot.api._pools = {
 telepot.api._onetime_pool_spec = (urllib3.ProxyManager, dict(proxy_url=proxy_url, num_pools=1, maxsize=1, retries=False, timeout=30))
 
 telegram_secret = os.getenv('TELEGRAM_BOT_SECRET')
+telegram_admin_chat_id = os.getenv('TELEGRAM_BOT_ADMIN_CHAT_ID')
 
 telegram_euc_urals_radio_bot_token = os.getenv('TELEGRAM_BOT_EUC_URALS_RADIO_BOT')
 telegram_euc_urals_radio_bot_url = '/telegram/TELEGRAM_BOT_EUC_URALS_RADIO_BOT/{}'.format(telegram_secret)
@@ -71,6 +72,8 @@ def telegram_euc_urals_radio_bot_webhook():
         if 'text' in update['message']:
             text = update['message']['text']
             telegram_euc_urals_radio_bot.sendMessage(chat_id, "From the web: you said '{}'".format(text))
+            if chat_id != telegram_admin_chat_id:
+                telegram_euc_urals_radio_bot.forward_message(telegram_admin_chat_id, chat_id, update['message']['message_id'])
         else:
             telegram_euc_urals_radio_bot.sendMessage(chat_id, "From the web: sorry, I didn't understand that kind of message")
     return 'OK'
@@ -85,6 +88,8 @@ def telegram_euc_urals_pets_bot_webhook():
         if 'text' in update['message']:
             text = update['message']['text']
             telegram_euc_urals_pets_bot.sendMessage(chat_id, "From the web: you said '{}'".format(text))
+            if chat_id != telegram_admin_chat_id:
+                telegram_euc_urals_pets_bot.forward_message(telegram_admin_chat_id, chat_id, update['message']['message_id'])
         else:
             telegram_euc_urals_pets_bot.sendMessage(chat_id, "From the web: sorry, I didn't understand that kind of message")
     return 'OK'
@@ -99,6 +104,8 @@ def telegram_sret_shot_bot_webhook():
         if 'text' in update['message']:
             text = update['message']['text']
             telegram_sret_shot_bot.sendMessage(chat_id, "From the web: you said '{}'".format(text))
+            if chat_id != telegram_admin_chat_id:
+                telegram_sret_shot_bot.forward_message(telegram_admin_chat_id, chat_id, update['message']['message_id'])
         else:
             telegram_sret_shot_bot.sendMessage(chat_id, "From the web: sorry, I didn't understand that kind of message")
     return 'OK'
@@ -113,6 +120,8 @@ def telegram_must_do_it_bot_webhook():
         if 'text' in update['message']:
             text = update['message']['text']
             telegram_must_do_it_bot.sendMessage(chat_id, "From the web: you said '{}'".format(text))
+            if chat_id != telegram_admin_chat_id:
+                telegram_must_do_it_bot.forward_message(telegram_admin_chat_id, chat_id, update['message']['message_id'])
         else:
             telegram_must_do_it_bot.sendMessage(chat_id, "From the web: sorry, I didn't understand that kind of message")
     return 'OK'
