@@ -3,4 +3,5 @@ gitpython
 flask
 flask-cors
 flask-sslify
+urllib3
 telepot
