@@ -12,7 +12,8 @@ import telepot
 from scripts import github
 
 
-url_base = 'https://python.alexandersobyanin.ru{}'
+# url_base = 'https://python.alexandersobyanin.ru{}'
+url_base = 'https://b1oki.pythonanywhere.com{}'
 
 proxy_url = "http://proxy.server:3128"
 telepot.api._pools = {
