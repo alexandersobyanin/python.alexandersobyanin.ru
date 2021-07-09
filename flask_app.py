@@ -11,7 +11,7 @@ import telepot
 from scripts import github
 
 
-url_base = 'https://python.alexandersobyanin.ru/{}'
+url_base = 'https://python.alexandersobyanin.ru{}'
 telegram_secret = os.getenv('TELEGRAM_BOT_SECRET')
 
 telegram_euc_urals_radio_bot_token = os.getenv('TELEGRAM_BOT_EUC_URALS_RADIO_BOT')
