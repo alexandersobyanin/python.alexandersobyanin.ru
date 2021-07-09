@@ -11,28 +11,28 @@ import telepot
 from scripts import github
 
 
+url_base = 'https://python.alexandersobyanin.ru/{}'
 telegram_secret = os.getenv('TELEGRAM_BOT_SECRET')
-telegram_url_base = 'https://python.alexandersobyanin.ru/telegram/{}'
 
 telegram_euc_urals_radio_bot_token = os.getenv('TELEGRAM_BOT_EUC_URALS_RADIO_BOT')
 telegram_euc_urals_radio_bot_url = '/telegram/TELEGRAM_BOT_EUC_URALS_RADIO_BOT/{}/'.format(telegram_secret)
 telegram_euc_urals_radio_bot = telepot.Bot(telegram_euc_urals_radio_bot_token)
-telegram_euc_urals_radio_bot.setWebhook(telegram_url_base.format(telegram_euc_urals_radio_bot_url), max_connections=1)
+telegram_euc_urals_radio_bot.setWebhook(url_base.format(telegram_euc_urals_radio_bot_url), max_connections=1)
 
 telegram_euc_urals_pets_bot_token = os.getenv('TELEGRAM_BOT_EUC_URALS_PETS_BOT')
 telegram_euc_urals_pets_bot_url = '/telegram/TELEGRAM_BOT_EUC_URALS_PETS_BOT/{}/'.format(telegram_secret)
 telegram_euc_urals_pets_bot = telepot.Bot(telegram_euc_urals_pets_bot_token)
-telegram_euc_urals_pets_bot.setWebhook(telegram_url_base.format(telegram_euc_urals_pets_bot_url), max_connections=1)
+telegram_euc_urals_pets_bot.setWebhook(url_base.format(telegram_euc_urals_pets_bot_url), max_connections=1)
 
 telegram_sret_shot_bot_token = os.getenv('TELEGRAM_BOT_SRET_SHOT_BOT')
 telegram_sret_shot_bot_url = '/telegram/TELEGRAM_BOT_SRET_SHOT_BOT/{}/'.format(telegram_secret)
 telegram_sret_shot_bot = telepot.Bot(telegram_sret_shot_bot_token)
-telegram_sret_shot_bot.setWebhook(telegram_url_base.format(telegram_sret_shot_bot_url), max_connections=1)
+telegram_sret_shot_bot.setWebhook(url_base.format(telegram_sret_shot_bot_url), max_connections=1)
 
 telegram_must_do_it_bot_token = os.getenv('TELEGRAM_BOT_MUST_DO_IT_BOT')
 telegram_must_do_it_bot_url = '/telegram/TELEGRAM_BOT_MUST_DO_IT_BOT/{}/'.format(telegram_secret)
 telegram_must_do_it_bot = telepot.Bot(telegram_must_do_it_bot_token)
-telegram_must_do_it_bot.setWebhook(telegram_url_base.format(telegram_must_do_it_bot_url), max_connections=1)
+telegram_must_do_it_bot.setWebhook(url_base.format(telegram_must_do_it_bot_url), max_connections=1)
 
 
 app = Flask(__name__, static_url_path='/static')
