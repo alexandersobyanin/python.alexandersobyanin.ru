@@ -15,7 +15,7 @@ from scripts import github
 # url_base = 'https://python.alexandersobyanin.ru{}'
 url_base = 'https://b1oki.pythonanywhere.com{}'
 
-proxy_url = "http://proxy.server:3128"
+proxy_url = 'http://proxy.server:3128'
 telepot.api._pools = {
     'default': urllib3.ProxyManager(proxy_url=proxy_url, num_pools=3, maxsize=10, retries=False, timeout=30),
 }
@@ -62,60 +62,60 @@ def health():
     return '{"health":1}'
 
 
-@app.route(telegram_euc_urals_radio_bot_url, methods=["POST"])
+@app.route(telegram_euc_urals_radio_bot_url, methods=['POST'])
 def telegram_euc_urals_radio_bot_webhook():
     update = request.get_json()
-    if "message" in update:
-        chat_id = update["message"]["chat"]["id"]
-        telegram_euc_urals_radio_bot.sendMessage(chat_id, "Как слышно, моноколёсник? Приём!")
-        if "text" in update["message"]:
-            text = update["message"]["text"]
+    if 'message' in update:
+        chat_id = update['message']['chat']['id']
+        telegram_euc_urals_radio_bot.sendMessage(chat_id, 'Как слышно, моноколёсник? Приём!')
+        if 'text' in update['message']:
+            text = update['message']['text']
             telegram_euc_urals_radio_bot.sendMessage(chat_id, "From the web: you said '{}'".format(text))
         else:
             telegram_euc_urals_radio_bot.sendMessage(chat_id, "From the web: sorry, I didn't understand that kind of message")
-    return "OK"
+    return 'OK'
 
 
-@app.route(telegram_euc_urals_pets_bot_url, methods=["POST"])
+@app.route(telegram_euc_urals_pets_bot_url, methods=['POST'])
 def telegram_euc_urals_pets_bot_webhook():
     update = request.get_json()
-    if "message" in update:
-        chat_id = update["message"]["chat"]["id"]
-        telegram_euc_urals_pets_bot.sendMessage(chat_id, "Привёт, монокотята!")
-        if "text" in update["message"]:
-            text = update["message"]["text"]
+    if 'message' in update:
+        chat_id = update['message']['chat']['id']
+        telegram_euc_urals_pets_bot.sendMessage(chat_id, 'Привёт, монокотята!')
+        if 'text' in update['message']:
+            text = update['message']['text']
             telegram_euc_urals_pets_bot.sendMessage(chat_id, "From the web: you said '{}'".format(text))
         else:
             telegram_euc_urals_pets_bot.sendMessage(chat_id, "From the web: sorry, I didn't understand that kind of message")
-    return "OK"
+    return 'OK'
 
 
-@app.route(telegram_sret_shot_bot_url, methods=["POST"])
+@app.route(telegram_sret_shot_bot_url, methods=['POST'])
 def telegram_sret_shot_bot_webhook():
     update = request.get_json()
-    if "message" in update:
-        chat_id = update["message"]["chat"]["id"]
-        telegram_sret_shot_bot.sendMessage(chat_id, "Скоро сможете прислать скриншот…")
-        if "text" in update["message"]:
-            text = update["message"]["text"]
+    if 'message' in update:
+        chat_id = update['message']['chat']['id']
+        telegram_sret_shot_bot.sendMessage(chat_id, 'Скоро сможете прислать скриншот…')
+        if 'text' in update['message']:
+            text = update['message']['text']
             telegram_sret_shot_bot.sendMessage(chat_id, "From the web: you said '{}'".format(text))
         else:
             telegram_sret_shot_bot.sendMessage(chat_id, "From the web: sorry, I didn't understand that kind of message")
-    return "OK"
+    return 'OK'
 
 
-@app.route(telegram_must_do_it_bot_url, methods=["POST"])
+@app.route(telegram_must_do_it_bot_url, methods=['POST'])
 def telegram_must_do_it_bot_webhook():
     update = request.get_json()
-    if "message" in update:
-        chat_id = update["message"]["chat"]["id"]
-        telegram_must_do_it_bot.sendMessage(chat_id, "JUST DO IT!")
-        if "text" in update["message"]:
-            text = update["message"]["text"]
+    if 'message' in update:
+        chat_id = update['message']['chat']['id']
+        telegram_must_do_it_bot.sendMessage(chat_id, 'JUST DO IT!')
+        if 'text' in update['message']:
+            text = update['message']['text']
             telegram_must_do_it_bot.sendMessage(chat_id, "From the web: you said '{}'".format(text))
         else:
             telegram_must_do_it_bot.sendMessage(chat_id, "From the web: sorry, I didn't understand that kind of message")
-    return "OK"
+    return 'OK'
 
 
 @app.route('/update_server', methods=['POST'])
