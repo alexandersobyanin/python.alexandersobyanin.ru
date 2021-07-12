@@ -57,14 +57,8 @@ def handle_must_do_it_bot(update):
 def basic_message_handler(update, bot, welcome_answer):
     if 'message' in update:
         chat_id = update['message']['chat']['id']
-        bot.sendMessage(chat_id, welcome_answer)
-        if 'text' in update['message']:
-            text = update['message']['text']
-            bot.sendMessage(chat_id, "From the web: you said '{}'".format(text))
-            if chat_id != telegram_admin_chat_id:
-                bot.forwardMessage(telegram_admin_chat_id, chat_id, update['message']['message_id'])
-        else:
-            bot.sendMessage(chat_id, "From the web: sorry, I didn't understand that kind of message")
+        if 'text' in update['message'] and chat_id != telegram_admin_chat_id:
+            bot.sendMessage(chat_id, f'{welcome_answer}\nВаше сообщение передано администратору, спасибо.')
         bot.forwardMessage(telegram_admin_chat_id, chat_id, update['message']['message_id'])
     bot.sendMessage(telegram_admin_chat_id, json.dumps(update))
     return 'OK'
