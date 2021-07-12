@@ -39,64 +39,32 @@ telegram_must_do_it_bot.setWebhook(url_base.format(telegram_must_do_it_bot_url),
 
 
 def handle_euc_urals_radio_bot(update):
-    if 'message' in update:
-        chat_id = update['message']['chat']['id']
-        telegram_euc_urals_radio_bot.sendMessage(chat_id, 'Как слышно, моноколёсник? Приём!')
-        if 'text' in update['message']:
-            text = update['message']['text']
-            telegram_euc_urals_radio_bot.sendMessage(chat_id, "From the web: you said '{}'".format(text))
-            if chat_id == telegram_admin_chat_id:
-                telegram_euc_urals_radio_bot.sendMessage(chat_id, json.dumps(update))
-            else:
-                telegram_euc_urals_radio_bot.forwardMessage(telegram_admin_chat_id, chat_id, update['message']['message_id'])
-        else:
-            telegram_euc_urals_radio_bot.sendMessage(chat_id, "From the web: sorry, I didn't understand that kind of message")
-    return 'OK'
+    return basic_message_handler(update, telegram_euc_urals_radio_bot, 'Как слышно, моноколёсник? Приём!')
 
 
 def handle__euc_urals_pets_bot(update):
-    if 'message' in update:
-        chat_id = update['message']['chat']['id']
-        telegram_euc_urals_pets_bot.sendMessage(chat_id, 'Привёт, монокотята!')
-        if 'text' in update['message']:
-            text = update['message']['text']
-            telegram_euc_urals_pets_bot.sendMessage(chat_id, "From the web: you said '{}'".format(text))
-            if chat_id == telegram_admin_chat_id:
-                telegram_euc_urals_pets_bot.sendMessage(chat_id, json.dumps(update))
-            else:
-                telegram_euc_urals_pets_bot.forwardMessage(telegram_admin_chat_id, chat_id, update['message']['message_id'])
-        else:
-            telegram_euc_urals_pets_bot.sendMessage(chat_id, "From the web: sorry, I didn't understand that kind of message")
-    return 'OK'
+    return basic_message_handler(update, telegram_euc_urals_pets_bot, 'Привет, монокотята! Скоро бот заработает…')
 
 
 def handle_sret_shot_bot(update):
-    if 'message' in update:
-        chat_id = update['message']['chat']['id']
-        telegram_sret_shot_bot.sendMessage(chat_id, 'Скоро сможете прислать скриншот…')
-        if 'text' in update['message']:
-            text = update['message']['text']
-            telegram_sret_shot_bot.sendMessage(chat_id, "From the web: you said '{}'".format(text))
-            if chat_id == telegram_admin_chat_id:
-                telegram_sret_shot_bot.sendMessage(chat_id, json.dumps(update))
-            else:
-                telegram_sret_shot_bot.forwardMessage(telegram_admin_chat_id, chat_id, update['message']['message_id'])
-        else:
-            telegram_sret_shot_bot.sendMessage(chat_id, "From the web: sorry, I didn't understand that kind of message")
-    return 'OK'
+    return basic_message_handler(update, telegram_sret_shot_bot, 'Скоро сможете прислать скриншот…')
 
 
 def handle_must_do_it_bot(update):
+    return basic_message_handler(update, telegram_must_do_it_bot, 'JUST DO IT!')
+
+
+def basic_message_handler(update, bot, welcome_answer):
     if 'message' in update:
         chat_id = update['message']['chat']['id']
-        telegram_must_do_it_bot.sendMessage(chat_id, 'JUST DO IT!')
+        bot.sendMessage(chat_id, welcome_answer)
         if 'text' in update['message']:
             text = update['message']['text']
-            telegram_must_do_it_bot.sendMessage(chat_id, "From the web: you said '{}'".format(text))
+            bot.sendMessage(chat_id, "From the web: you said '{}'".format(text))
             if chat_id == telegram_admin_chat_id:
-                telegram_must_do_it_bot.sendMessage(chat_id, json.dumps(update))
+                bot.sendMessage(chat_id, json.dumps(update))
             else:
-                telegram_must_do_it_bot.forwardMessage(telegram_admin_chat_id, chat_id, update['message']['message_id'])
+                bot.forwardMessage(telegram_admin_chat_id, chat_id, update['message']['message_id'])
         else:
-            telegram_must_do_it_bot.sendMessage(chat_id, "From the web: sorry, I didn't understand that kind of message")
+            bot.sendMessage(chat_id, "From the web: sorry, I didn't understand that kind of message")
     return 'OK'
