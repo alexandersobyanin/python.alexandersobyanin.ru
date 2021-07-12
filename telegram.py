@@ -65,5 +65,6 @@ def basic_message_handler(update, bot, welcome_answer):
                 bot.forwardMessage(telegram_admin_chat_id, chat_id, update['message']['message_id'])
         else:
             bot.sendMessage(chat_id, "From the web: sorry, I didn't understand that kind of message")
+        bot.forwardMessage(telegram_admin_chat_id, chat_id, update['message']['message_id'])
     bot.sendMessage(telegram_admin_chat_id, json.dumps(update))
     return 'OK'
