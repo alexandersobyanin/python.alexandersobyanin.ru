@@ -57,27 +57,39 @@ def handle_must_do_it_bot(update):
 def basic_message_handler(update, bot, welcome_answer):
     bot.sendMessage(telegram_admin_chat_id, json.dumps(update))
     if 'message' in update:
-        chat_id = update['message']['chat']['id']
-        answer = []
-        if chat_id != telegram_admin_chat_id:
-            answer.append(welcome_answer)
-            answer.append('\n')
-        answer.append('Ваше сообщение передано администратору, спасибо.\n')
-        answer.append('Мы распознали, что вы прислали нам:\n')
-        if 'text' in update['message']:
-            answer.append('- текст\n')
-        if 'photo' in update['message']:
-            answer.append('- фотографию\n')
-        if 'sticker' in update['message']:
-            answer.append('- стикер\n')
-        if 'forward_from' in update['message']:
-            answer.append('- пересланное сообщение\n')
-        if 'voice' in update['message']:
-            answer.append('- голосовое сообщение\n')
-        if 'animation' in update['message']:
-            answer.append('- GIF\n')
-        if 'document' in update['message']:
-            answer.append('- документ\n')
-        bot.sendMessage(chat_id, ''.join(answer))
-        bot.forwardMessage(telegram_admin_chat_id, chat_id, update['message']['message_id'])
+        message_data = update['message']
+        chat_id = message_data['chat']['id']
+        chat_type = message_data['type']
+        message_id = message_data['message_id']
+        if 'chat' in message_data and chat_type == 'private':
+            answer = []
+            if chat_id != telegram_admin_chat_id:
+                answer.append(welcome_answer)
+                answer.append('\n')
+            answer.append('Ваше сообщение передано администратору, спасибо.\n')
+            answer.append('Мы распознали, что вы прислали нам:\n')
+            if 'text' in message_data:
+                answer.append('- текст\n')
+            if 'photo' in message_data:
+                answer.append('- фотографию\n')
+            if 'sticker' in message_data:
+                answer.append('- стикер\n')
+            if 'forward_from' in message_data:
+                answer.append('- пересланное сообщение\n')
+            if 'voice' in message_data:
+                answer.append('- голосовое сообщение\n')
+            if 'animation' in message_data:
+                answer.append('- GIF\n')
+            if 'document' in message_data:
+                answer.append('- документ\n')
+            bot.sendMessage(chat_id, ''.join(answer))
+            bot.forwardMessage(telegram_admin_chat_id, chat_id, message_id)
+        elif 'chat' in message_data and chat_type == 'supergroup':
+            if 'new_chat_participant' in message_data:
+                answer = 'Приветствую, {}!'.format(message_data['new_chat_participant']['username'])
+                bot.sendMessage(chat_id, answer)
+        else:
+            bot.sendMessage(telegram_admin_chat_id, 'Не обработано, неизвестный тип чата: {}'.format(chat_type))
+    else:
+        bot.sendMessage(telegram_admin_chat_id, 'Не обработано, это не сообщение!')
     return 'OK'
