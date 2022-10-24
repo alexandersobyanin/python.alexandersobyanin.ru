@@ -55,6 +55,7 @@ def handle_must_do_it_bot(update):
 
 
 def basic_message_handler(update, bot, welcome_answer):
+    bot.sendMessage(telegram_admin_chat_id, json.dumps(update))
     if 'message' in update:
         chat_id = update['message']['chat']['id']
         answer = []
@@ -79,5 +80,4 @@ def basic_message_handler(update, bot, welcome_answer):
             answer.append('- документ\n')
         bot.sendMessage(chat_id, ''.join(answer))
         bot.forwardMessage(telegram_admin_chat_id, chat_id, update['message']['message_id'])
-    bot.sendMessage(telegram_admin_chat_id, json.dumps(update))
     return 'OK'
