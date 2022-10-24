@@ -59,7 +59,7 @@ def basic_message_handler(update, bot, welcome_answer):
     if 'message' in update:
         message_data = update['message']
         chat_id = message_data['chat']['id']
-        chat_type = message_data['type']
+        chat_type = message_data['chat']['type']
         message_id = message_data['message_id']
         if 'chat' in message_data and chat_type == 'private':
             answer = []
