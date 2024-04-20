@@ -82,12 +82,18 @@ def basic_message_handler(update, bot, welcome_answer):
                 answer.append('- GIF\n')
             if 'document' in message_data:
                 answer.append('- документ\n')
-            bot.sendMessage(chat_id, ''.join(answer))
+            try:
+                bot.sendMessage(chat_id, ''.join(answer))
+            except telepot.exception.BotWasBlockedError:
+                bot.sendMessage(telegram_admin_chat_id, 'Бот заблокирован у {}'.format(chat_id))
             bot.forwardMessage(telegram_admin_chat_id, chat_id, message_id)
         elif 'chat' in message_data and chat_type == 'supergroup':
             if 'new_chat_participant' in message_data:
                 answer = 'Приветствую, {}!'.format(message_data['new_chat_participant']['username'])
-                bot.sendMessage(chat_id, answer)
+                try:
+                    bot.sendMessage(chat_id, answer)
+                except telepot.exception.BotWasBlockedError:
+                    bot.sendMessage(telegram_admin_chat_id, 'Бот заблокирован у {}'.format(chat_id))
         else:
             bot.sendMessage(telegram_admin_chat_id, 'Не обработано, неизвестный тип чата: {}'.format(chat_type))
     else:
