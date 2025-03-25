@@ -48,6 +48,11 @@ def telegram_must_do_it_bot_webhook():
     return telegram.handle_must_do_it_bot(request.get_json())
 
 
+@app.route(telegram.telegram_sret_shot_ai_bot_url, methods=['POST'])
+def telegram_sret_shot_ai_bot_webhook():
+    return telegram.handle_sret_shot_ai_bot(request.get_json())
+
+
 @app.route('/update_server', methods=['POST'])
 def update_server_webhook():
     if request.method != 'POST':

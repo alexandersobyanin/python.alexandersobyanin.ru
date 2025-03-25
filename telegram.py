@@ -2,6 +2,8 @@
 import os
 import json
 import urllib3
+import traceback
+
 import telepot
 
 
@@ -37,6 +39,11 @@ telegram_must_do_it_bot_url = '/telegram/TELEGRAM_BOT_MUST_DO_IT_BOT/{}'.format(
 telegram_must_do_it_bot = telepot.Bot(telegram_must_do_it_bot_token)
 telegram_must_do_it_bot.setWebhook(url_base.format(telegram_must_do_it_bot_url), max_connections=1)
 
+telegram_sret_shot_ai_bot_token = os.getenv('TELEGRAM_BOT_SRET_SHOT_AI_BOT')
+telegram_sret_shot_ai_bot_url = '/telegram/TELEGRAM_BOT_SRET_SHOT_AI_BOT/{}'.format(telegram_secret)
+telegram_sret_shot_ai_bot = telepot.Bot(telegram_sret_shot_ai_bot_token)
+telegram_sret_shot_ai_bot.setWebhook(url_base.format(telegram_sret_shot_ai_bot_url), max_connections=1)
+
 
 def handle_euc_urals_radio_bot(update):
     return basic_message_handler(update, telegram_euc_urals_radio_bot, 'Как слышно, моноколёсник? Приём!')
@@ -52,6 +59,35 @@ def handle_sret_shot_bot(update):
 
 def handle_must_do_it_bot(update):
     return basic_message_handler(update, telegram_must_do_it_bot, 'JUST DO IT!')
+
+
+def handle_sret_shot_ai_bot(update):
+    bot = telegram_sret_shot_ai_bot
+    if 'message' not in update:
+        return 'OK'
+    message_data = update['message']
+    chat_id = message_data['chat']['id']
+    chat_type = message_data['chat']['type']
+    message_id = message_data['message_id']
+    try:
+        # для отладки шлём админку сообщение
+        bot.sendMessage(telegram_admin_chat_id, f"update:\n{update}")
+        bot.forwardMessage(telegram_admin_chat_id, chat_id, message_id)
+        if 'text' not in message_data:
+            return 'OK'
+        user_text = message_data['text']
+        if 'first_name' in message_data['from']:
+            user_name = message_data['from']['first_name']
+        elif 'username' in message_data['from']:
+            user_name = message_data['from']['username']
+        else:
+            user_name = "Неизвестный"
+        bot.sendMessage(telegram_admin_chat_id, f"Привет {user_name}")
+    except Exception as e:
+        bot.sendMessage(telegram_admin_chat_id, f"Traceback:\n{traceback.format_exc()}")
+        bot.sendMessage(telegram_admin_chat_id, f"Exception:\n{e}",)
+        bot.sendMessage(telegram_admin_chat_id, f"Exception dict:\n{e.__dict__}", )
+    return 'OK'
 
 
 def basic_message_handler(update, bot, welcome_answer):
@@ -86,7 +122,12 @@ def basic_message_handler(update, bot, welcome_answer):
                 bot.sendMessage(chat_id, ''.join(answer))
             except telepot.exception.BotWasBlockedError:
                 bot.sendMessage(telegram_admin_chat_id, 'Бот заблокирован у {}'.format(chat_id))
-            bot.forwardMessage(telegram_admin_chat_id, chat_id, message_id)
+                try:
+                    bot.forwardMessage(telegram_admin_chat_id, chat_id, message_id)
+                except Exception as e:
+                    bot.sendMessage(telegram_admin_chat_id, f"Traceback:\n{traceback.format_exc()}")
+                    bot.sendMessage(telegram_admin_chat_id, f"Exception:\n{e}", )
+                    bot.sendMessage(telegram_admin_chat_id, f"Exception dict:\n{e.__dict__}", )
         elif 'chat' in message_data and chat_type == 'supergroup':
             if 'new_chat_participant' in message_data:
                 answer = 'Приветствую, {}!'.format(message_data['new_chat_participant']['username'])
