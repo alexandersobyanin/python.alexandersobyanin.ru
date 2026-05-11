@@ -3,8 +3,8 @@ import os
 import json
 import urllib3
 import traceback
-
 import telepot
+from spend_splitter_bot import basic_message_handler as telegram_spend_splitter_bot_handler
 
 
 # url_base = 'https://python.alexandersobyanin.ru{}'
@@ -18,6 +18,11 @@ telepot.api._onetime_pool_spec = (urllib3.ProxyManager, dict(proxy_url=proxy_url
 
 telegram_secret = os.getenv('TELEGRAM_BOT_SECRET')
 telegram_admin_chat_id = int(os.getenv('TELEGRAM_BOT_ADMIN_CHAT_ID'))
+
+telegram_spend_splitter_bot_token = os.getenv('TELEGRAM_BOT_SPEND_SPLITTER_BOT')
+telegram_spend_splitter_bot_url = '/telegram/TELEGRAM_BOT_SPEND_SPLITTER_BOT/{}'.format(telegram_secret)
+telegram_spend_splitter_bot = telepot.Bot(telegram_spend_splitter_bot_token)
+telegram_spend_splitter_bot.setWebhook(url_base.format(telegram_spend_splitter_bot_url), max_connections=1)
 
 telegram_euc_urals_radio_bot_token = os.getenv('TELEGRAM_BOT_EUC_URALS_RADIO_BOT')
 telegram_euc_urals_radio_bot_url = '/telegram/TELEGRAM_BOT_EUC_URALS_RADIO_BOT/{}'.format(telegram_secret)
@@ -43,6 +48,10 @@ telegram_sret_shot_ai_bot_token = os.getenv('TELEGRAM_BOT_SRET_SHOT_AI_BOT')
 telegram_sret_shot_ai_bot_url = '/telegram/TELEGRAM_BOT_SRET_SHOT_AI_BOT/{}'.format(telegram_secret)
 telegram_sret_shot_ai_bot = telepot.Bot(telegram_sret_shot_ai_bot_token)
 telegram_sret_shot_ai_bot.setWebhook(url_base.format(telegram_sret_shot_ai_bot_url), max_connections=1)
+
+
+def handle_spend_splitter_bot(update):
+    return telegram_spend_splitter_bot_handler(update, telegram_spend_splitter_bot)
 
 
 def handle_euc_urals_radio_bot(update):
