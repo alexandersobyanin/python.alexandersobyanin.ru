@@ -150,14 +150,18 @@ def basic_message_handler(update, bot, default_reply="Скоро бот зара
         elif session["state"] == ADD_EXPENSE_AMOUNT:
             try:
                 amount = float(text.replace(",", "."))
+                if amount <= 0:
+                    send("Сумма должна быть положительным числом. Попробуйте ещё раз.")
+                    return 'ok'
                 session["expenses"].append({"payer": session["temp"]["payer"], "amount": amount})
                 session["state"] = ADD_PERSON
                 send(
                     f"Добавлено: {session['temp']['payer']} оплатил {amount:.2f}₽",
                     ["Добавить трату", "Показать итог", "Сбросить всё"])
                 session["temp"] = {}
-            except:
+            except ValueError:
                 send("Пожалуйста, введите сумму числом. Например: 1234")
+                return 'ok'
         else:
             # неизвестное состояние — ресет
             sessions[chat_id] = {
@@ -174,3 +178,4 @@ def basic_message_handler(update, bot, default_reply="Скоро бот зара
             chat_id = message['chat']['id']
             bot.sendMessage(chat_id, default_reply)
         return 'ok'
+
