@@ -28,6 +28,11 @@ def health():
     return '{"health":1}'
 
 
+@app.route(telegram.telegram_spend_splitter_bot_url, methods=['POST'])
+def telegram_spend_splitter_bot_webhook():
+    return telegram.handle_spend_splitter_bot(request.get_json())
+
+
 @app.route(telegram.telegram_euc_urals_radio_bot_url, methods=['POST'])
 def telegram_euc_urals_radio_bot_webhook():
     return telegram.handle_euc_urals_radio_bot(request.get_json())
